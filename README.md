@@ -1,1 +1,0 @@
-# Nepali_OCR

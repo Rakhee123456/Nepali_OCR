@@ -23,6 +23,18 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 def home():
     return render_template('index.html')
 
+@app.route('/upload')
+def up_load():
+    return render_template('upload.html')
+
+@app.route('/check')
+def check_home():
+    return render_template('check.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 @app.route('/photo', methods=['GET', 'POST'])
 def upload_file():
     path = os.path.join(APP_ROOT, 'static/outimg')
@@ -244,7 +256,7 @@ def upload():
         speech_file.seek(0)
         speech_b64 = base64.b64encode(speech_file.read()).decode()
 
-        return render_template('index.html', photos=newDes, result=final_char, probability=probab,
+        return render_template('upload.html', photos=newDes, result=final_char, probability=probab,
                                processedImg=url_for('static', filename='outimg/image-a.jpg'),
                                title='NepaliOCR - Predict', speech_b64=speech_b64)
 
