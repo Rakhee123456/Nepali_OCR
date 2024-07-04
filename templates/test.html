@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .output {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .images {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .image-item {
+            margin: 10px;
+            text-align: center;
+        }
+
+        .image-item img {
+            max-width: 300px;
+            max-height: 300px;
+        }
+
+        .button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>{{ title }}</h1>
+
+        <form action="/uploader" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*">
+            <button type="submit" class="button">Upload Image</button>
+        </form>
+
+        {% if photos %}
+        <h2>Uploaded Image:</h2>
+        <img src="{{ photos }}" alt="Uploaded Image" style="max-width: 500px; max-height: 500px;">
+        {% endif %}
+
+        {% if result %}
+        <div class="output">
+            <h2>OCR Result:</h2>
+            <p>{{ result }}</p>
+            <p>Probability: {{ probability }}</p>
+            
+            {% if speech_b64 %}
+            <audio controls>
+                <source src="data:audio/wav;base64,{{ speech_b64 }}" type="audio/wav">
+                Your browser does not support the audio element.
+            </audio>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <div class="images">
+            {% for char in ['a', 'b', 'c', 'd', 'e', 'f'] %}
+            <div class="image-item">
+                <img src="{{ processedImg | replace('a', char) }}" alt="Processed Image {{ char }}">
+                <p>Character: {{ char }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</body>
+
+</html>
